@@ -10,6 +10,8 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Set UV_PROJECT to install packages directly into a specified directory
 ENV UV_PROJECT=/app/.venv
+# add to path to include VENV
+ENV PATH="/app/.venv/bin:$PATH" 
 
 COPY pyproject.toml uv.lock .
 RUN uv sync --frozen
