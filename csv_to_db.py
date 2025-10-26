@@ -1,5 +1,6 @@
 import polars as pl
 import os
+import logging
 
 
 def read_csv(file):
@@ -33,11 +34,10 @@ def populate_db(df):
         "database": os.getenv("DB_NAME", "mydb"),
         "user": os.getenv("DB_USER", "user"),
         "password": os.getenv("DB_PASSWORD", "password"),
-        "port": os.getenv("DB_PORT", "5433"),
+        "port": os.getenv("DB_PORT", "5432"),
     }
-    SERVER = "localhost"
     TABLE_NAME = "salaries"
-    PG_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{SERVER}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
+    PG_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
 
     try:
         df.write_database(
@@ -46,9 +46,11 @@ def populate_db(df):
             engine="adbc",
             if_table_exists="replace",
         )
-        print(f"DataFrame successfully written to PostgreSQL table '{TABLE_NAME}'.")
+        logging.info(
+            f"DataFrame successfully written to PostgreSQL table '{TABLE_NAME}'."
+        )
     except Exception as e:
-        print(f"Error writing DataFrame to database: {e}")
+        logging.info(f"Error writing DataFrame to database: {e}")
 
 
 def main():
