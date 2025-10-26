@@ -2,34 +2,36 @@ services:
   postgres:
     image: postgres:15
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5433:5432" 
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    user: postgres # non-root
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+    user: "1000:1000"
   etl:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      DB_HOST: postgres
-      DB_NAME: mydb
-      DB_USER: user
-      DB_PASSWORD: password
-      DB_PORT: 5432 # internal port
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT} # internal port
     depends_on:
       postgres:
         condition: service_healthy
