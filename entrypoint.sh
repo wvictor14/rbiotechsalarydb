@@ -1,10 +1,11 @@
 #!/bin/bash
+set -e # exit on error
 
 # Start cron in background
-cron
+service cron start
 
 # Run initial ETL
-python csv_to_db.py
+cd /app && uv run --frozen csv_to_db.py
 
 # Keep container running and follow logs
-tail -f /var/log/cron.log
+exec tail -f /var/log/cron.log
