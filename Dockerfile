@@ -29,9 +29,6 @@ RUN crontab /etc/cron.d/etl-cron
 # logging
 RUN touch /var/log/cron.log
 
-# this line copies the cron log to the container's STDOUT, so can follow with docker logs instead of having to exec into container
-RUN ln -sf /proc/1/fd/1 /var/log/cron.log
-
 # Create entrypoint script
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
