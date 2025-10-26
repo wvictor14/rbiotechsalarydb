@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e # exit on error
 
+# writes the environment variables to file, for crontab access
+printenv | grep -v "no_proxy" >> /etc/environment
+
 # Start cron in background
 service cron start
 
