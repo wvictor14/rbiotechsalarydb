@@ -33,11 +33,10 @@ def populate_db(df):
         "database": os.getenv("DB_NAME", "mydb"),
         "user": os.getenv("DB_USER", "user"),
         "password": os.getenv("DB_PASSWORD", "password"),
-        "port": os.getenv("DB_PORT", "5433"),
+        "port": os.getenv("DB_PORT", "5432"),
     }
-    SERVER = "localhost"
     TABLE_NAME = "salaries"
-    PG_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{SERVER}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
+    PG_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
 
     try:
         df.write_database(
