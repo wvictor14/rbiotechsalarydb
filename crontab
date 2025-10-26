@@ -1,0 +1,7 @@
+0 2 * * * cd /home/vyuan/workspace/rbiotechsalarydb/ && uv run --frozen csv_to_db.py >> /var/log/cron.log 2>&1
+
+# every minute, for testing
+# * * * * * 
+
+# every day 2 am
+# 0 2 * * *
