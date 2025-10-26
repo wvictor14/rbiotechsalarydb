@@ -5,6 +5,7 @@
 ```bash
 # Check last 50 lines
 docker exec <container-name> tail -n 50 /var/log/cron.log
+docker compose logs -f etl
 ```
 
 ### Check If Cron Service Is Running
