@@ -9,11 +9,31 @@ services:
       - "5433:5432" 
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d mydb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+  etl:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_NAME: mydb
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_PORT: 5432 # internal port
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   postgres_data: 
