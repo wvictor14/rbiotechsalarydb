@@ -1,4 +1,4 @@
-* * * * * cd /app && uv run --frozen csv_to_db.py >> /var/log/cron.log 2>&1
+0 2 * * * cd /app && uv run --frozen csv_to_db.py >> /var/log/cron.log 2>&1
 
 # every minute, for testing
 # * * * * * 
