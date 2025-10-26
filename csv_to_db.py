@@ -2,6 +2,15 @@ import polars as pl
 import os
 import logging
 
+# Configure logging at the top of the file
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.StreamHandler()  # This writes to stdout
+    ],
+)
+
 
 def read_csv(file):
     return pl.read_csv(file, infer_schema_length=10000)
@@ -39,6 +48,7 @@ def populate_db(df):
     TABLE_NAME = "salaries"
     PG_URL = f"postgresql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
 
+    logging.info("Beginning `populate_db`")
     try:
         df.write_database(
             table_name=TABLE_NAME,
