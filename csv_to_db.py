@@ -1,5 +1,6 @@
 import polars as pl
 import os
+import logging
 
 
 def read_csv(file):
@@ -45,9 +46,11 @@ def populate_db(df):
             engine="adbc",
             if_table_exists="replace",
         )
-        print(f"DataFrame successfully written to PostgreSQL table '{TABLE_NAME}'.")
+        logging.info(
+            f"DataFrame successfully written to PostgreSQL table '{TABLE_NAME}'."
+        )
     except Exception as e:
-        print(f"Error writing DataFrame to database: {e}")
+        logging.info(f"Error writing DataFrame to database: {e}")
 
 
 def main():
