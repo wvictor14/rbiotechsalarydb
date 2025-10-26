@@ -2,6 +2,7 @@
 set -e # exit on error
 
 # writes the environment variables to file, for crontab access
+# https://stackoverflow.com/questions/27771781/how-can-i-access-docker-set-environment-variables-from-a-cron-job
 printenv | grep -v "no_proxy" >> /etc/environment
 
 # Start cron in background
