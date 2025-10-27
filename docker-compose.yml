@@ -1,4 +1,9 @@
 services:
+  shinyapp:
+    image: victor2wy/rbiotechsalary # dockerhub
+    ports:
+      - "3838:3838"
+
   postgres:
     image: postgres:15
     environment:
